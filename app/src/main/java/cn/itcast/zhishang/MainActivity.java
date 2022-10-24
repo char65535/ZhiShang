@@ -22,9 +22,12 @@ public class MainActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         initView();
+//        更改textView处文字字体
         textView.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/huakangw5.ttc"));
+//        实现数据回传 ->version
+        registerForActivityResult(new );
 
-        //跳转
+        //跳转到登录页面
         Intent intent = new Intent();
         intent.setClass(this, LoginPage.class);
 
