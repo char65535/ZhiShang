@@ -23,7 +23,9 @@ public class MainActivity extends AppCompatActivity {
 //        检测至尚软件是否打开
         Toast.makeText(this, "欢迎使用至尚笔记", Toast.LENGTH_SHORT).show();
 //        实现页面全屏
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        int flag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        getWindow().setFlags(flag, flag);
+
 
         initView();
 //        更改textView处文字字体
