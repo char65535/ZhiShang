@@ -39,14 +39,27 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(runnable = new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(MainActivity.this, LoginPage.class);
-                startActivity(intent);
-                finish();
+                redirect();
             }
         }, 5000);
         initView();
+        btn_skipPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redirect();
+                if (runnable != null) {
+                    handler.removeCallbacks(runnable);
+                }
+            }
+        });
 //        更改textView处文字字体
         textView.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/huakangw5.ttc"));
+    }
+
+    private void redirect() {
+        Intent intent = new Intent(MainActivity.this, LoginPage.class);
+        startActivity(intent);
+        finish();
     }
 
     private void initView() {
