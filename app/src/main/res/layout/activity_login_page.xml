@@ -43,11 +43,13 @@
             <EditText
                 android:id="@+id/username"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                android:layout_height="40dp"
+                android:layout_marginVertical="15dp"
+                android:layout_marginRight="20dp"
                 android:ems="10"
                 android:hint="用户名"
                 android:inputType="textPersonName"
+                android:background="@null"
                 android:textColor="#B4BEC9" />
         </LinearLayout>
 
@@ -72,14 +74,17 @@
             <EditText
                 android:id="@+id/pwd"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                android:layout_height="40dp"
+                android:layout_marginVertical="15dp"
+                android:layout_marginRight="20dp"
                 android:ems="10"
                 android:hint="用户名"
                 android:inputType="textPassword"
+                android:background="@null"
                 android:textColor="#B4BEC9" />
         </LinearLayout>
 
     </LinearLayout>
+
 
 </RelativeLayout>
