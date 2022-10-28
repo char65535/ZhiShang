@@ -7,4 +7,47 @@
     android:background="@drawable/bg_loginpage"
     tools:context=".LoginPage">
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/avatar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/headphoto"
+        app:civ_border_color="@android:color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="180dp"
+        app:civ_border_overlay="true"
+        app:civ_border_width="3dp" />
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="140dp"
+        android:background="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="180dp"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/editTextTextPersonName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_margin="10dp"
+                android:inputType="textPersonName"
+                android:hint="用户名" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/editTextTextPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPassword" />
+    </LinearLayout>
+
 </RelativeLayout>
