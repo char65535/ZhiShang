@@ -11,43 +11,75 @@
         android:id="@+id/avatar"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/headphoto"
-        app:civ_border_color="@android:color/white"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="180dp"
+        android:src="@drawable/headphoto"
+        app:civ_border_color="@android:color/white"
         app:civ_border_overlay="true"
         app:civ_border_width="3dp" />
 
     <LinearLayout
         android:layout_width="300dp"
         android:layout_height="140dp"
-        android:background="@color/white"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="180dp"
+        android:background="@drawable/cirbtn"
         android:orientation="vertical">
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="70dp"
             android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/usernamePhono"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="15dp"
+                app:srcCompat="@drawable/username" />
+
             <EditText
-                android:id="@+id/editTextTextPersonName"
+                android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="15dp"
                 android:ems="10"
-                android:layout_margin="10dp"
+                android:hint="用户名"
                 android:inputType="textPersonName"
-                android:hint="用户名" />
+                android:textColor="#B4BEC9" />
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/editTextTextPassword"
+        <View
+            android:layout_width="250dp"
+            android:layout_height="1dip"
+            android:layout_gravity="center"
+            android:background="#B4BEC9" />
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPassword" />
+            android:layout_height="70dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/pwdphoto"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="15dp"
+                app:srcCompat="@drawable/password" />
+
+            <EditText
+                android:id="@+id/pwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:ems="10"
+                android:hint="用户名"
+                android:inputType="textPassword"
+                android:textColor="#B4BEC9" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </RelativeLayout>
