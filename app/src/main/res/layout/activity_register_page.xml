@@ -7,23 +7,13 @@
     android:background="@drawable/bg_loginpage"
     tools:context=".LoginPage">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/avatar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="180dp"
-        android:src="@drawable/headphoto"
-        app:civ_border_color="@android:color/white"
-        app:civ_border_overlay="true"
-        app:civ_border_width="3dp" />
-
     <LinearLayout
         android:id="@+id/usernamePwd"
         android:layout_width="300dp"
         android:layout_height="140dp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="350dp"
+        android:layout_marginBottom="180dp"
         android:background="@drawable/usernamepwdbtn"
         android:orientation="vertical">
 
@@ -75,30 +65,8 @@
                 android:hint="@string/pwd"
                 android:inputType="textPassword" />
         </LinearLayout>
+
     </LinearLayout>
-
-    <!--    <CheckBox-->
-    <!--        android:id="@+id/remPwd"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_below="@id/usernamePwd"-->
-    <!--        android:layout_alignStart="@id/usernamePwd"-->
-    <!--        android:layout_margin="10dp"-->
-    <!--        android:text="记住密码" />-->
-
-    <CheckBox
-        android:id="@+id/clause"
-        style="@style/Widget.AppCompat.CompoundButton.RadioButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/usernamePwd"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="7dp"
-        android:layout_marginBottom="7dp"
-        android:text="我已阅读并同意《服务协议》和《用户政策》"
-        android:theme="@style/MycheckBox" />
 
     <Button
         android:id="@+id/skipRegister"
@@ -111,19 +79,19 @@
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
         android:background="@drawable/shape_5dp_corners"
-        android:text="@string/register"
+        android:text="@string/login"
         android:textColor="@color/oldCopper"
         android:textSize="16sp" />
 
-        <ImageView
-            android:id="@+id/skipLogin"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="70dp"
-            android:background="@drawable/cirbtn"
-            android:padding="17dp"
-            app:srcCompat="@drawable/go" />
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:padding="17dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="70dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/cirbtn"
+        app:srcCompat="@drawable/go" />
 
 </RelativeLayout>
