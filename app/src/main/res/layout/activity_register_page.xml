@@ -7,21 +7,38 @@
     android:background="@drawable/bg_loginpage"
     tools:context=".LoginPage">
 
+    <TextView
+        android:id="@+id/title1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="20dp"
+        android:text="欢迎来到"
+        android:textColor="@color/grain"
+        android:textSize="40sp" />
+
+    <TextView
+        android:id="@+id/title2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title1"
+        android:layout_marginStart="40dp"
+        android:text="至尚"
+        android:textColor="@color/grain"
+        android:textSize="40sp" />
+
     <LinearLayout
         android:id="@+id/usernamePwd"
         android:layout_width="300dp"
-        android:layout_height="140dp"
-        android:layout_alignParentBottom="true"
+        android:layout_height="280dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="180dp"
+        android:layout_marginTop="250dp"
         android:background="@drawable/usernamepwdbtn"
         android:orientation="vertical">
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:orientation="horizontal">
+        <LinearLayout style="@style/inputLinearStyle">
 
             <ImageView
                 android:id="@+id/usernamePhono"
@@ -45,13 +62,34 @@
             android:layout_gravity="center"
             android:background="#B4BEC9" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:orientation="horizontal">
+        <LinearLayout style="@style/inputLinearStyle">
 
             <ImageView
-                android:id="@+id/pwdphoto"
+                android:id="@+id/emailPhoto"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="15dp"
+                app:srcCompat="@drawable/eamil" />
+
+            <EditText
+                android:id="@+id/email"
+                style="@style/editTextStyle"
+                android:layout_marginVertical="15dp"
+                android:background="@null"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="250dp"
+            android:layout_height="1dip"
+            android:layout_gravity="center"
+            android:background="#B4BEC9" />
+
+        <LinearLayout style="@style/inputLinearStyle">
+
+            <ImageView
+                android:id="@+id/pwdPhoto"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="15dp"
@@ -66,10 +104,34 @@
                 android:inputType="textPassword" />
         </LinearLayout>
 
+        <View
+            android:layout_width="250dp"
+            android:layout_height="1dip"
+            android:layout_gravity="center"
+            android:background="#B4BEC9" />
+
+        <LinearLayout style="@style/inputLinearStyle">
+
+            <ImageView
+                android:id="@+id/rePwdPhoto"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="15dp"
+                app:srcCompat="@drawable/repassword" />
+
+            <EditText
+                android:id="@+id/rePwd"
+                style="@style/editTextStyle"
+                android:layout_marginVertical="15dp"
+                android:background="@null"
+                android:hint="@string/rePwd"
+                android:inputType="textPassword" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <Button
-        android:id="@+id/skipRegister"
+        android:id="@+id/skipLogin"
         android:layout_width="80dp"
         android:layout_height="35dp"
         android:layout_alignParentRight="true"
@@ -84,12 +146,12 @@
         android:textSize="16sp" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/register"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:padding="17dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="70dp"
+        android:layout_below="@id/usernamePwd"
+        android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/cirbtn"
         app:srcCompat="@drawable/go" />

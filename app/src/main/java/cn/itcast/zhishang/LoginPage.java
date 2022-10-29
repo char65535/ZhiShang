@@ -33,7 +33,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         username = findViewById(R.id.username);
         pwd = findViewById(R.id.pwd);
         usernamePhoto = findViewById(R.id.usernamePhono);
-        pwdPhoto = findViewById(R.id.pwdphoto);
+        pwdPhoto = findViewById(R.id.pwdPhoto);
         skipRegister = findViewById(R.id.skipRegister);
         skipLogin = findViewById(R.id.skipLogin);
     }
@@ -44,20 +44,33 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
             case R.id.usernamePhono:
                 Toast.makeText(LoginPage.this, "请输入用户名", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.pwdphoto:
+            case R.id.pwdPhoto:
                 Toast.makeText(LoginPage.this, "请输入密码", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.skipRegister:
-                Intent intentRegister = new Intent();
-                intentRegister.setClass(LoginPage.this, RegisterPage.class);
-                intentRegister.putExtra("username", username.getText().toString());
-                intentRegister.putExtra("pwd", pwd.getText().toString());
-                startActivity(intentRegister);
-                break;
             case R.id.skipLogin:
-                Toast.makeText(LoginPage.this, "点击了登录按钮", Toast.LENGTH_SHORT).show();
+                login();
                 break;
+            case R.id.skipRegister:
+                register();
+                break;
+
         }
 
+    }
+
+    private void login() {
+        Toast.makeText(LoginPage.this, "点击了登录按钮", Toast.LENGTH_SHORT).show();
+    }
+
+    private void register() {
+        String usernameText = username.getText().toString();
+        String pwdText = pwd.getText().toString();
+        Intent intentRegister = new Intent();
+        intentRegister.setClass(LoginPage.this, RegisterPage.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("username", usernameText);
+        bundle.putString("pwd", pwdText);
+        intentRegister.putExtras(bundle);
+        startActivity(intentRegister);
     }
 }
