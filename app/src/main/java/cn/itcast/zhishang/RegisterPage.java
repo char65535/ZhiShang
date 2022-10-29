@@ -34,8 +34,6 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
         username.setText(usernameData);
         pwd.setText(pwdData);
         skipLogin.setOnClickListener(this);
-
-
     }
 
     private void initView() {
