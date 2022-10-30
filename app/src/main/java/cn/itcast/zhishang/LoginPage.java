@@ -79,6 +79,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         Toast.makeText(LoginPage.this, "点击了登录按钮", Toast.LENGTH_SHORT).show();
     }
 
+
     private void register() {
         String usernameText = username.getText().toString();
         String pwdText = pwd.getText().toString();

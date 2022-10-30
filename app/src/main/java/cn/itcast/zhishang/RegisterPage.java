@@ -62,6 +62,7 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
         skipLogin = findViewById(R.id.skipLogin);
     }
 
+
     @Override
     public void onClick(View v) {
         String nameText = username.getText().toString();
