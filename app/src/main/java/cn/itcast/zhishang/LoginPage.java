@@ -9,12 +9,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginPage extends AppCompatActivity implements View.OnClickListener {
     private EditText username, pwd;
     private ImageView usernamePhoto, pwdPhoto, skipLogin;
     private Button skipRegister;
+    ActivityResultLauncher<Intent> launcher;
+    String RegisterUsername, RegisterPwd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +33,17 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         pwdPhoto.setOnClickListener(this);
         skipRegister.setOnClickListener(this);
         skipLogin.setOnClickListener(this);
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getData() != null && result.getResultCode() == RESULT_OK) {
+                    RegisterUsername = result.getData().getStringExtra("username");
+                    RegisterPwd = result.getData().getStringExtra("pwd");
+                    username.setText(RegisterUsername);
+                    pwd.setText(RegisterPwd);
+                }
+            }
+        });
     }
 
     private void initView() {
@@ -71,6 +88,6 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         bundle.putString("username", usernameText);
         bundle.putString("pwd", pwdText);
         intentRegister.putExtras(bundle);
-        startActivity(intentRegister);
+        launcher.launch(intentRegister);
     }
 }

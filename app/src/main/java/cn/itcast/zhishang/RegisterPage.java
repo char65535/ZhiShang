@@ -88,7 +88,13 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
                 long rowId = service.addInfo(person);
                 if (rowId != -1) {
                     Toast.makeText(this, "注册成功", Toast.LENGTH_SHORT).show();
-
+                    Intent intent1 = new Intent();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("username", nameText);
+                    bundle.putString("pwd", pwdText);
+                    intent1.putExtras(bundle);
+                    setResult(RESULT_OK, intent1);
+                    finish();
                 } else {
                     Toast.makeText(this, "注册失败", Toast.LENGTH_SHORT).show();
                 }
