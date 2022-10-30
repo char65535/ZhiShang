@@ -13,7 +13,9 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table information(_id integer primary key autoincrement,name varchar(20),email varchar(20),pwd varchar(20),rePwd varchar(20))");
+//        db.execSQL("create table information(_id integer primary key autoincrement,name varchar(20),email varchar(20),pwd varchar(20),rePwd varchar(20))");
+        db.execSQL("CREATE TABLE IF NOT EXISTS person (personId integer " +
+                "primary key autoincrement, name varchar(20), email varchar(20),pwd varchar(20),rePwd varchar(20))");
     }
 
     @Override

@@ -9,14 +9,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import cn.itcast.zhishang.bean.Person;
+import cn.itcast.zhishang.sql.SQLService;
 
 public class RegisterPage extends AppCompatActivity implements View.OnClickListener {
     private TextView title1, title2;
     private EditText username, email, pwd, rePwd;
     private ImageView usernamePhoto, pwdPhoto, emailPhoto, rePwdPhoto, register;
     private Button skipLogin;
+    SQLService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,15 +30,21 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
         int flag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
         getWindow().setFlags(flag, flag);
         initView();
+        service = new SQLService(getApplicationContext());
         title1.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/huakangw5.ttc"));
         title2.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/huakangw5.ttc"));
 //        获取由LoginPage传来的数据
-        Bundle bundle = getIntent().getExtras();
-        String usernameData = bundle.getString("username");
-        String pwdData = bundle.getString("pwd");
-        username.setText(usernameData);
-        pwd.setText(pwdData);
+        getLoginData();
         skipLogin.setOnClickListener(this);
+        register.setOnClickListener(this);
+    }
+
+    private void getLoginData() {
+        Bundle bundle = getIntent().getExtras();
+        String usernameLoginData = bundle.getString("username");
+        String pwdLoginData = bundle.getString("pwd");
+        username.setText(usernameLoginData);
+        pwd.setText(pwdLoginData);
     }
 
     private void initView() {
@@ -53,8 +64,47 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(RegisterPage.this, LoginPage.class);
-        startActivity(intent);
-        finish();
+        String nameText = username.getText().toString();
+        String emailText = email.getText().toString();
+        String pwdText = pwd.getText().toString();
+        String rePwdText = rePwd.getText().toString();
+        Person person = null;
+        switch (v.getId()) {
+            case R.id.skipLogin:
+                Intent intent = new Intent(RegisterPage.this, LoginPage.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.register:
+                if (nameText.isEmpty() || pwdText.isEmpty()) {
+                    Toast.makeText(this, "请输入用户名和密码", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (rePwdText.isEmpty()) {
+                    Toast.makeText(this, "请输入确认密码", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                person = new Person(nameText, emailText, pwdText, rePwdText);
+                long rowId = service.addInfo(person);
+                if (rowId != -1) {
+                    Toast.makeText(this, "注册成功", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(this, "注册失败", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
