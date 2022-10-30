@@ -6,6 +6,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+
 import cn.itcast.zhishang.bean.Person;
 
 public class SQLService {
@@ -59,6 +61,22 @@ public class SQLService {
         int rowNumber = db.update("person", values, "personId=?", new String[]{person.getId() + ""});
         db.close();
         return rowNumber;
+    }
+
+    public ArrayList<Person> getAllData() {
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        ArrayList<Person> list = new ArrayList<Person>();
+        @SuppressLint("Recycle") Cursor cursor = db.query("Person", null, null, null, null, null, "name DESC");
+        while (cursor.moveToNext()) {
+            @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex("name"));
+            @SuppressLint("Range") String email = cursor.getString(cursor.getColumnIndex("email"));
+            @SuppressLint("Range") String pwd = cursor.getString(cursor.getColumnIndex("pwd"));
+            @SuppressLint("Range") String rePwd = cursor.getString(cursor.getColumnIndex("rePwd"));
+
+            list.add(new Person(name, email, pwd, rePwd));
+        }
+        return list;
     }
 }
 

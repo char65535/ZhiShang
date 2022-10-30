@@ -2,6 +2,7 @@ package cn.itcast.zhishang;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -16,7 +17,10 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-import cn.itcast.zhishang.sql.DBOpenHelper;
+import java.util.ArrayList;
+
+import cn.itcast.zhishang.bean.Person;
+import cn.itcast.zhishang.sql.SQLService;
 
 public class LoginPage extends AppCompatActivity implements View.OnClickListener {
     private EditText username, pwd;
@@ -27,7 +31,8 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
     private String RegisterUsername, RegisterPwd;
     private String usernameText;
     private String pwdText;
-    private DBOpenHelper dbOpenHelper;
+    private String personName;
+    SQLService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +40,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.activity_login_page);
         int flag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
         getWindow().setFlags(flag, flag);
-        dbOpenHelper = new DBOpenHelper(this);
+        service = new SQLService(getApplicationContext());
         initView();
         usernamePhoto.setOnClickListener(this);
         pwdPhoto.setOnClickListener(this);
@@ -87,17 +92,64 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
     private void login() {
         usernameText = username.getText().toString();
         pwdText = pwd.getText().toString();
-        if (usernameText.isEmpty() || pwdText.isEmpty()) {
-            Toast.makeText(LoginPage.this, "用户名和密码不能为空",
-                    Toast.LENGTH_LONG).show();
-            return;
+
+        if (!TextUtils.isEmpty(usernameText) && !TextUtils.isEmpty(pwdText)) {
+            ArrayList<Person> data = service.getAllData();
+            boolean match = false;
+            boolean match2 = false;
+            for (int i = 0; i < data.size(); i++) {
+                Person person = data.get(i);
+                if ((usernameText.equals(person.getName())) && pwdText.equals(person.getPwd()) ||
+                        (usernameText.equals(person.getEmail())) && pwdText.equals(person.getPwd())) {
+                    personName = person.getName();
+                    match = true;
+                    break;
+                } else {
+                    match = false;
+                }
+            }
+            if (match) {
+                if (!clause.isChecked()) {
+                    Toast.makeText(this, "请阅读并同意《服务协议》和《用户政策》", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
+                Runnable target;
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            sleep(2000);//2秒 模拟登录时间
+                            String user_name = personName;
+                            Intent intent1 = new Intent(LoginPage.this, FirstActivity.class);//设置自己跳转到成功的界面
+                            //intent1.putExtra("user_name",user_name);
+                            startActivity(intent1);
+                            finish();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                thread.start();//打开线程
+
+            } else {
+                Toast.makeText(this, "用户名或密码不正确，请重新输入", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "请输入你的用户名或密码", Toast.LENGTH_SHORT).show();
         }
-        if (!clause.isChecked()) {
-            Toast.makeText(LoginPage.this, "您需要同意用户隐私协议",
-                    Toast.LENGTH_LONG).show();
-            return;
-        }
-        Toast.makeText(LoginPage.this, "登录成功", Toast.LENGTH_SHORT).show();
+
+//        if (usernameText.isEmpty() || pwdText.isEmpty()) {
+//            Toast.makeText(LoginPage.this, "用户名和密码不能为空",
+//                    Toast.LENGTH_LONG).show();
+//            return;
+//        }
+//        if (!clause.isChecked()) {
+//            Toast.makeText(LoginPage.this, "您需要同意用户隐私协议",
+//                    Toast.LENGTH_LONG).show();
+//            return;
+//        }
+//        Toast.makeText(LoginPage.this, "登录成功", Toast.LENGTH_SHORT).show();
     }
 
 

@@ -13,6 +13,14 @@
         android:theme="@style/Theme.ZhiShang"
         tools:targetApi="31">
         <activity
+            android:name=".FirstActivity"
+            android:exported="false"
+            android:label="@string/title_activity_first">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".RegisterPage"
             android:exported="false"
             android:theme="@style/Theme.Design.NoActionBar">
