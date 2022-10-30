@@ -7,7 +7,7 @@
     <string name="pwd">密码</string>
     <string name="rePwd">确认密码</string>
     <string name="title_activity_first">FirstActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_home">首页</string>
+    <string name="title_dashboard">探索</string>
+    <string name="title_notifications">我的</string>
 </resources>
