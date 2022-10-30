@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -15,12 +16,18 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import cn.itcast.zhishang.sql.DBOpenHelper;
+
 public class LoginPage extends AppCompatActivity implements View.OnClickListener {
     private EditText username, pwd;
     private ImageView usernamePhoto, pwdPhoto, skipLogin;
     private Button skipRegister;
-    ActivityResultLauncher<Intent> launcher;
-    String RegisterUsername, RegisterPwd;
+    private CheckBox clause;
+    private ActivityResultLauncher<Intent> launcher;
+    private String RegisterUsername, RegisterPwd;
+    private String usernameText;
+    private String pwdText;
+    private DBOpenHelper dbOpenHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +35,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.activity_login_page);
         int flag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
         getWindow().setFlags(flag, flag);
+        dbOpenHelper = new DBOpenHelper(this);
         initView();
         usernamePhoto.setOnClickListener(this);
         pwdPhoto.setOnClickListener(this);
@@ -53,6 +61,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         pwdPhoto = findViewById(R.id.pwdPhoto);
         skipRegister = findViewById(R.id.skipRegister);
         skipLogin = findViewById(R.id.skipLogin);
+        clause = findViewById(R.id.clause);
     }
 
     @Override
@@ -76,13 +85,25 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
     }
 
     private void login() {
-        Toast.makeText(LoginPage.this, "点击了登录按钮", Toast.LENGTH_SHORT).show();
+        usernameText = username.getText().toString();
+        pwdText = pwd.getText().toString();
+        if (usernameText.isEmpty() || pwdText.isEmpty()) {
+            Toast.makeText(LoginPage.this, "用户名和密码不能为空",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!clause.isChecked()) {
+            Toast.makeText(LoginPage.this, "您需要同意用户隐私协议",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        Toast.makeText(LoginPage.this, "登录成功", Toast.LENGTH_SHORT).show();
     }
 
 
     private void register() {
-        String usernameText = username.getText().toString();
-        String pwdText = pwd.getText().toString();
+        usernameText = username.getText().toString();
+        pwdText = pwd.getText().toString();
         Intent intentRegister = new Intent();
         intentRegister.setClass(LoginPage.this, RegisterPage.class);
         Bundle bundle = new Bundle();
@@ -92,3 +113,16 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         launcher.launch(intentRegister);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

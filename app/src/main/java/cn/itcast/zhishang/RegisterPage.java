@@ -85,6 +85,10 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
                     Toast.makeText(this, "请输入确认密码", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (!pwdText.equals(rePwdText)) {
+                    Toast.makeText(this, "密码与确认密码不一致", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 person = new Person(nameText, emailText, pwdText, rePwdText);
                 long rowId = service.addInfo(person);
                 if (rowId != -1) {
