@@ -121,9 +121,6 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
                         try {
                             sleep(2000);//2秒 模拟登录时间
                             String user_name = personName;
-                            Intent intent1 = new Intent(LoginPage.this, FirstActivity.class);//设置自己跳转到成功的界面
-                            //intent1.putExtra("user_name",user_name);
-                            startActivity(intent1);
                             finish();
                         } catch (Exception e) {
                             e.printStackTrace();
