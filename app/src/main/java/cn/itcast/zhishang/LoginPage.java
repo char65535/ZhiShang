@@ -121,6 +121,8 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
                         try {
                             sleep(2000);//2秒 模拟登录时间
                             String user_name = personName;
+                            Intent intent = new Intent(LoginPage.this, NotepadActivity.class);
+                            startActivity(intent);
                             finish();
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -135,18 +137,6 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         } else {
             Toast.makeText(this, "请输入你的用户名或密码", Toast.LENGTH_SHORT).show();
         }
-
-//        if (usernameText.isEmpty() || pwdText.isEmpty()) {
-//            Toast.makeText(LoginPage.this, "用户名和密码不能为空",
-//                    Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//        if (!clause.isChecked()) {
-//            Toast.makeText(LoginPage.this, "您需要同意用户隐私协议",
-//                    Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//        Toast.makeText(LoginPage.this, "登录成功", Toast.LENGTH_SHORT).show();
     }
 
 
