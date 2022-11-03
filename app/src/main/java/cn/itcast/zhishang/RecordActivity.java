@@ -12,23 +12,38 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Calendar;
+
 public class RecordActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView title, date_now;
     private EditText textArea;
     private ImageView submit;
     private Button skip_notepad;
-    private String notepad_title;
+    private String notepad_title, date;
+    int mYear, mMath, mDay, mWay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
         initView();
-        getNotepadData();
+        getNotepadData();//获取由Notepad传来的数据
+        title.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/huakangw5.ttc"));//更换title字体
 
-        title.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/huakangw5.ttc"));
+        calenderData();//获取年月日
+        date = mWay + " " + mYear + "." + mMath + "." + mDay;
+        date_now.setText(date);
+
         submit.setOnClickListener(this);
         skip_notepad.setOnClickListener(this);
+    }
+
+    private void calenderData() {
+        Calendar instance = Calendar.getInstance();
+        mYear = instance.get(Calendar.YEAR);
+        mMath = instance.get(Calendar.MARCH) + 1;
+        mDay = instance.get(Calendar.DAY_OF_MONTH);
+        mWay = instance.get(Calendar.DAY_OF_WEEK) - 1;
     }
 
     private void getNotepadData() {
@@ -50,10 +65,19 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.submit:
                 Toast.makeText(this, "点击了提交按钮", Toast.LENGTH_SHORT).show();
+                Intent submit_intent = new Intent();
+                submit_intent.setClass(this, NotepadActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("textArea", textArea.getText().toString());
+                bundle.putString("date_now", date);
+                submit_intent.putExtras(bundle);
+                startActivity(submit_intent);
+
                 break;
             case R.id.skip_notepad:
                 Intent skipNotepad_intent = new Intent(this, NotepadActivity.class);
                 startActivity(skipNotepad_intent);
+                finish();
                 break;
         }
     }
