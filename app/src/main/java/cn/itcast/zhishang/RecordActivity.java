@@ -1,5 +1,6 @@
 package cn.itcast.zhishang;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
@@ -16,15 +17,24 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
     private EditText textArea;
     private ImageView submit;
     private Button skip_notepad;
+    private String notepad_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
         initView();
+        getNotepadData();
+
         title.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/huakangw5.ttc"));
         submit.setOnClickListener(this);
         skip_notepad.setOnClickListener(this);
+    }
+
+    private void getNotepadData() {
+        Intent intent_notepad = getIntent();
+        notepad_title = intent_notepad.getStringExtra("title");
+        title.setText(notepad_title);
     }
 
     private void initView() {
@@ -42,7 +52,8 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 Toast.makeText(this, "点击了提交按钮", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.skip_notepad:
-                Toast.makeText(this, "点击了跳转NotepadActivity按钮", Toast.LENGTH_SHORT).show();
+                Intent skipNotepad_intent = new Intent(this, NotepadActivity.class);
+                startActivity(skipNotepad_intent);
                 break;
         }
     }

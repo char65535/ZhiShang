@@ -7,7 +7,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,7 +37,6 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
         initView();
         noteName.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/huakangw5.ttc"));
         add.setOnClickListener(this);
-
     }
 
     private void initView() {
@@ -42,7 +44,6 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
         mRecyclerView = findViewById(R.id.recyclerview);
         add = findViewById(R.id.add);
         notes = new Notepad();
-
     }
 
     @Override
@@ -57,13 +58,8 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
                 });
                 myDialog.show();
                 break;
-
-            //                Intent intent_record = new Intent();
-//                intent_record.setClass(this, RecordActivity.class);
-//                startActivity(intent_record);
         }
     }
-
 
 }
 

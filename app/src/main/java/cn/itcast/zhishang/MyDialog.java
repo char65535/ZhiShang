@@ -2,6 +2,7 @@ package cn.itcast.zhishang;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,7 +21,6 @@ public class MyDialog extends Dialog {
     private TextView title;
     private EditText textArea;
     private ImageView cancel, confirm;
-
 
     public interface PriorityListener {
         void setActivityTest(String str);
@@ -55,6 +55,11 @@ public class MyDialog extends Dialog {
                 Toast.makeText(context, "添加成功", Toast.LENGTH_SHORT).show();
                 listener.setActivityTest(textArea.getText().toString());
                 dismiss();
+
+                Intent intent_record = new Intent();
+                intent_record.setClass(context, RecordActivity.class);
+                intent_record.putExtra("title", textArea.getText().toString());
+                context.startActivity(intent_record);
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {
