@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 
-import cn.itcast.zhishang.bean.NotepadBean;
+import cn.itcast.zhishang.bean.Notepad;
 
 public class SQLService {
     DBOpenHelper helper;
@@ -17,7 +17,7 @@ public class SQLService {
         helper = new DBOpenHelper(context);
     }
 
-    public long addInfo(NotepadBean notes) {
+    public long addInfo(Notepad notes) {
         SQLiteDatabase db = helper.getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put("name", notes.getName());
@@ -27,14 +27,14 @@ public class SQLService {
         return rowId;
     }
 
-    public NotepadBean find(int id) {
+    public Notepad find(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor cursor = db.query("notes", null, "notesid=?", new String[]{id + ""}, null, null, null);
         if (cursor.getCount() != 0) {
             if (cursor.moveToFirst()) {
                 @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex("name"));
                 @SuppressLint("Range") String email = cursor.getString(cursor.getColumnIndex("email"));
-                return new NotepadBean(name, email);
+                return new Notepad(name, email);
             }
         }
         return null;
@@ -47,7 +47,7 @@ public class SQLService {
         return rowNumber;
     }
 
-    public int update(NotepadBean notes) {
+    public int update(Notepad notes) {
         SQLiteDatabase db = helper.getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put("notepadContent", notes.getNotepadContent());
@@ -57,15 +57,15 @@ public class SQLService {
         return rowNumber;
     }
 
-    public ArrayList<NotepadBean> getAllData() {
+    public ArrayList<Notepad> getAllData() {
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        ArrayList<NotepadBean> list = new ArrayList<NotepadBean>();
-        @SuppressLint("Recycle") Cursor cursor = db.query("NotepadBean", null, null, null, null, null, "name DESC");
+        ArrayList<Notepad> list = new ArrayList<Notepad>();
+        @SuppressLint("Recycle") Cursor cursor = db.query("Notepad", null, null, null, null, null, "name DESC");
         while (cursor.moveToNext()) {
             @SuppressLint("Range") String notepadContent = cursor.getString(cursor.getColumnIndex("notepadContent"));
             @SuppressLint("Range") String notepadTime = cursor.getString(cursor.getColumnIndex("notepadTime"));
-            list.add(new NotepadBean(notepadContent, notepadTime));
+            list.add(new Notepad(notepadContent, notepadTime));
         }
         return list;
     }

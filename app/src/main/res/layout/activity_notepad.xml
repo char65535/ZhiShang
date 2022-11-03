@@ -21,6 +21,7 @@
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:layout_below="@id/note_name" />
 
     <ImageView
@@ -33,4 +34,11 @@
         android:background="@drawable/cirbtn"
         android:padding="10dp"
         android:src="@drawable/add" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textSize="30dp" />
 </RelativeLayout>
