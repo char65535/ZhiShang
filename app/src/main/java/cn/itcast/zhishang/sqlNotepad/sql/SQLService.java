@@ -20,8 +20,9 @@ public class SQLService {
     public long addInfo(Notepad notes) {
         SQLiteDatabase db = helper.getReadableDatabase();
         ContentValues values = new ContentValues();
-        values.put("name", notes.getName());
-        values.put("email", notes.getEmail());
+        values.put("title", notes.getNotepadTitle());
+        values.put("content", notes.getNotepadContent());
+        values.put("time", notes.getNotepadTime());
         long rowId = db.insert("notes", null, values);
         db.close();
         return rowId;
@@ -32,9 +33,10 @@ public class SQLService {
         Cursor cursor = db.query("notes", null, "notesid=?", new String[]{id + ""}, null, null, null);
         if (cursor.getCount() != 0) {
             if (cursor.moveToFirst()) {
-                @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex("name"));
-                @SuppressLint("Range") String email = cursor.getString(cursor.getColumnIndex("email"));
-                return new Notepad(name, email);
+                @SuppressLint("Range") String title = cursor.getString(cursor.getColumnIndex("title"));
+                @SuppressLint("Range") String content = cursor.getString(cursor.getColumnIndex("content"));
+                @SuppressLint("Range") String time = cursor.getString(cursor.getColumnIndex("time"));
+                return new Notepad(title, content, time);
             }
         }
         return null;
@@ -50,8 +52,9 @@ public class SQLService {
     public int update(Notepad notes) {
         SQLiteDatabase db = helper.getReadableDatabase();
         ContentValues values = new ContentValues();
-        values.put("notepadContent", notes.getNotepadContent());
-        values.put("notepadTime", notes.getNotepadTime());
+        values.put("title", notes.getNotepadTitle());
+        values.put("content", notes.getNotepadContent());
+        values.put("time", notes.getNotepadTime());
         int rowNumber = db.update("notes", values, "notesId=?", new String[]{notes.getId() + ""});
         db.close();
         return rowNumber;
@@ -63,9 +66,10 @@ public class SQLService {
         ArrayList<Notepad> list = new ArrayList<Notepad>();
         @SuppressLint("Recycle") Cursor cursor = db.query("Notepad", null, null, null, null, null, "name DESC");
         while (cursor.moveToNext()) {
-            @SuppressLint("Range") String notepadContent = cursor.getString(cursor.getColumnIndex("notepadContent"));
-            @SuppressLint("Range") String notepadTime = cursor.getString(cursor.getColumnIndex("notepadTime"));
-            list.add(new Notepad(notepadContent, notepadTime));
+            @SuppressLint("Range") String title = cursor.getString(cursor.getColumnIndex("title"));
+            @SuppressLint("Range") String content = cursor.getString(cursor.getColumnIndex("content"));
+            @SuppressLint("Range") String time = cursor.getString(cursor.getColumnIndex("time"));
+            list.add(new Notepad(title, content, time));
         }
         return list;
     }
