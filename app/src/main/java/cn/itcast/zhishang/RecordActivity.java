@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,7 +18,8 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
     private EditText textArea;
     private ImageView submit;
     private Button skip_notepad;
-    private String notepad_title, date;
+    private String notepad_title, date, textAreaData;
+
     int mYear, mMath, mDay, mWay;
 
     @Override
@@ -64,25 +64,26 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.submit:
-                Toast.makeText(this, "点击了提交按钮", Toast.LENGTH_SHORT).show();
+                textAreaData = textArea.getText().toString();
                 Intent submit_intent = new Intent();
                 submit_intent.setClass(this, NotepadActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("textArea", textArea.getText().toString());
+                bundle.putString("textArea", textAreaData);
                 bundle.putString("date_now", date);
                 submit_intent.putExtras(bundle);
-                startActivity(submit_intent);
-
+                setResult(RESULT_OK, submit_intent);
+                finish();
                 break;
+
             case R.id.skip_notepad:
                 Intent skipNotepad_intent = new Intent(this, NotepadActivity.class);
                 startActivity(skipNotepad_intent);
                 finish();
+
                 break;
         }
     }
 }
-
 
 
 
