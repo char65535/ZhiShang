@@ -1,7 +1,7 @@
 # 至尚笔记
 
+<div align=center>
+<img src=".\logo.png" alt="logo" style="zoom:100%;"/>
+</div>
 
-
-<img src=".\logo.png" alt="logo" style="zoom:100%;" />
-
-A simple note 
+  A simple note 
