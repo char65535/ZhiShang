@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ZhiShang</string>
+    <string name="app_name">至尚笔记</string>
     <string name="register">注册</string>
     <string name="login">返回登录</string>
     <string name="username">用户名/邮箱</string>

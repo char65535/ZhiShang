@@ -14,7 +14,7 @@ public class NoteDBOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS notes (notesId integer " +
-                "primary key autoincrement,title varchar(20), content varchar(20), time varchar(20))");
+                "primary key autoincrement,title varchar(20), content varchar(200), time varchar(20))");
     }
 
     @Override

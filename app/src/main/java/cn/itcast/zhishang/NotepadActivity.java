@@ -83,7 +83,7 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
     private void initView() {
         noteName = findViewById(R.id.note_name);
         add = findViewById(R.id.add);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        mRecyclerView =findViewById(R.id.recyclerview);
     }
 
     //    实现点击事件

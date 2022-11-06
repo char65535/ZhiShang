@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/merino"
+    android:background="@color/grain"
     tools:context=".MainActivity">
 
     <ImageView
@@ -14,7 +14,7 @@
         android:layout_above="@id/textView"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="17dp"
-        app:srcCompat="@drawable/mountain" />
+        app:srcCompat="@drawable/logo" />
 
     <TextView
         android:id="@+id/textView"
