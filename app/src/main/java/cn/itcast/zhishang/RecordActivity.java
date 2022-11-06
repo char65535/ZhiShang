@@ -8,10 +8,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.Serializable;
 import java.util.Calendar;
+import java.util.List;
+
+import cn.itcast.zhishang.bean.Notepad;
+import cn.itcast.zhishang.sqlNotepad.sql.NoteSQLService;
 
 public class RecordActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView title, date_now;
@@ -19,8 +25,8 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
     private ImageView submit;
     private Button skip_notepad;
     private String notepad_title, date, textAreaData;
-
-    int mYear, mMath, mDay, mWay;
+    private int mYear, mMath, mDay, mWay;
+    NoteSQLService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +42,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
 
         submit.setOnClickListener(this);
         skip_notepad.setOnClickListener(this);
+        service = new NoteSQLService(getApplicationContext());
     }
 
     private void calenderData() {
@@ -62,15 +69,33 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+        Notepad notes = null;
+
         switch (v.getId()) {
             case R.id.submit:
                 textAreaData = textArea.getText().toString();
+//                添加到数据库
+                notes = new Notepad(notepad_title, textAreaData, date);
+                long rowId = service.addInfo(notes);
+                if (rowId == -1) {
+                    Toast.makeText(this, "添加失败", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "添加成功", Toast.LENGTH_SHORT).show();
+                }
+
+//                遍历数据库
+                List<Notepad> notepads = service.getAllData();
+
                 Intent submit_intent = new Intent();
                 submit_intent.setClass(this, NotepadActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("textArea", textAreaData);
-                bundle.putString("date_now", date);
-                submit_intent.putExtras(bundle);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("textArea", textAreaData);
+//                bundle.putString("date_now", date);
+//                bundle.putSerializable("notepads", (Serializable) notepads);
+//                submit_intent.putExtras(bundle);
+                submit_intent.putExtra("textArea", textAreaData);
+                submit_intent.putExtra("date_now", date);
+                submit_intent.putExtra("notepads", (Serializable) notepads);
                 setResult(RESULT_OK, submit_intent);
                 finish();
                 break;
@@ -79,7 +104,6 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 Intent skipNotepad_intent = new Intent(this, NotepadActivity.class);
                 startActivity(skipNotepad_intent);
                 finish();
-
                 break;
         }
     }

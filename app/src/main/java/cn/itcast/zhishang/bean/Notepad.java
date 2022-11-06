@@ -1,68 +1,68 @@
 package cn.itcast.zhishang.bean;
 
-public class Notepad extends Person {
-    private Integer id;                  //记录的id
-    private String notepadTitle;
-    private String notepadContent;   //记录的内容
-    private String notepadTime;       //保存记录的时间
+import java.io.Serializable;
 
-    public Notepad(String notepadTitle, String notepadContent, String notepadTime) {
-        this.notepadTitle = notepadTitle;
-        this.notepadContent = notepadContent;
-        this.notepadTime = notepadTime;
+public class Notepad implements Serializable {
+    private Integer id;                  //记录的id
+    private String title;
+    private String content;   //记录的内容
+    private String time;       //保存记录的时间
+
+    public Notepad(Integer id, String title, String content, String time) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.time = time;
     }
 
-    public Notepad(Integer id, String notepadTitle, String notepadContent, String notepadTime) {
-        this.id = id;
-        this.notepadTitle = notepadTitle;
-        this.notepadContent = notepadContent;
-        this.notepadTime = notepadTime;
+    public Notepad(String title, String content, String time) {
+        this.title = title;
+        this.content = content;
+        this.time = time;
     }
 
     public Notepad() {
     }
 
-    @Override
     public Integer getId() {
         return id;
     }
 
-    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getNotepadTitle() {
-        return notepadTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setNotepadTitle(String notepadTitle) {
-        this.notepadTitle = notepadTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getNotepadContent() {
-        return notepadContent;
+    public String getContent() {
+        return content;
     }
 
-    public void setNotepadContent(String notepadContent) {
-        this.notepadContent = notepadContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public String getNotepadTime() {
-        return notepadTime;
+    public String getTime() {
+        return time;
     }
 
-    public void setNotepadTime(String notepadTime) {
-        this.notepadTime = notepadTime;
+    public void setTime(String time) {
+        this.time = time;
     }
 
     @Override
     public String toString() {
         return "Notepad{" +
                 "id=" + id +
-                ", notepadTitle='" + notepadTitle + '\'' +
-                ", notepadContent='" + notepadContent + '\'' +
-                ", notepadTime='" + notepadTime + '\'' +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", time='" + time + '\'' +
                 '}';
     }
 }

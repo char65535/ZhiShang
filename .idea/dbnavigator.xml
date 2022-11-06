@@ -29,7 +29,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="65755511-d451-4e4f-bb68-50e2c5a9fa8d">
-      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[select * from person]]></console>
+      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[select * from notes]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
@@ -87,7 +87,7 @@
           <port value="" />
           <database value="" />
           <files>
-            <file path="C:\Users\京洛\Desktop\itcast.db" schema="main" />
+            <file path="C:\Users\京洛\Desktop\notepad.db" schema="main" />
           </files>
           <type value="NONE" />
           <user value="" />
