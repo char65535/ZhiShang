@@ -47,38 +47,46 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_notepad);
         //获取来自RecordActivity的数据
         initView();
+        //接收由RecordActivity回调数据
         launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
                 if (result.getData() != null && result.getResultCode() == RESULT_OK) {
                     //此处被隔很久，误区：创建Intent接收数据，实时上应该使用registerForActivityResult的result调用
+//                    方案一：使用bundle封装
 //                    Bundle bundle = result.getData().getExtras();
 //                    textArea = bundle.getString("textArea");
 //                    date_now = bundle.getString("date_now");
 //                    notepads = (List<Notepad>) bundle.getSerializable("notepads");
+//                    方案二：原始获取
                     textArea = result.getData().getStringExtra("textArea");
                     date_now = result.getData().getStringExtra("date_now");
                     notepads = (List<Notepad>) result.getData().getSerializableExtra("notepads");
                 }
             }
         });
-
+//        为noteName设置字体
         noteName.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/huakangw5.ttc"));
+
+//        添加点击事件
         add.setOnClickListener(this);
         noteName.setOnClickListener(this);
 
+//        添加列表
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-
         myAdapter = new MyAdapter(notepads, getApplicationContext());
         mRecyclerView.setAdapter(myAdapter);
     }
 
+    //    获取控件
     private void initView() {
         noteName = findViewById(R.id.note_name);
         add = findViewById(R.id.add);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview);
     }
+
+    //    实现点击事件
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -90,9 +98,11 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
                         title = str;
                     }
                 });
+//                显示对话框
                 myDialog.show();
                 break;
             case R.id.note_name:
+//                显示notepad，判断是否添加到数据库
                 Toast.makeText(this, "" + notepads, Toast.LENGTH_SHORT).show();
                 break;
         }
@@ -104,7 +114,6 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
         private TextView title_dialog;
         private EditText textArea;
         private ImageView cancel, confirm;
-
         private PriorixtyListener listener;
 
         public MyDialog(@NonNull Context context, int theme, PriorixtyListener listener) {
@@ -122,12 +131,13 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
 
             initView();
 
+//            设置对话框位置
             Window window = getWindow();
             WindowManager.LayoutParams params = window.getAttributes();
             params.gravity = Gravity.CENTER;
             window.setAttributes(params);
 
-
+//            为确定和取消按钮添加点击事件
             confirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -158,7 +168,3 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 }
-
-
-
-

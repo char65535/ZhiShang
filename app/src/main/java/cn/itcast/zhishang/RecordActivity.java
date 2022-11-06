@@ -33,15 +33,19 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
         initView();
-        getNotepadData();//获取由Notepad传来的数据
+//        获取由Notepad传来的数据
+        getNotepadData();
+//        为title设置字体
         title.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/huakangw5.ttc"));//更换title字体
 
         calenderData();//获取年月日
         date = mWay + " " + mYear + "." + mMath + "." + mDay;
+//        将日期添加到date_now控件上
         date_now.setText(date);
-
+//        为提交,返回按钮添加事件
         submit.setOnClickListener(this);
         skip_notepad.setOnClickListener(this);
+//        创建NoteSQLService实例化对象
         service = new NoteSQLService(getApplicationContext());
     }
 
@@ -88,11 +92,13 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
 
                 Intent submit_intent = new Intent();
                 submit_intent.setClass(this, NotepadActivity.class);
+//                方案一：bundle封装
 //                Bundle bundle = new Bundle();
 //                bundle.putString("textArea", textAreaData);
 //                bundle.putString("date_now", date);
 //                bundle.putSerializable("notepads", (Serializable) notepads);
 //                submit_intent.putExtras(bundle);
+//                方案二
                 submit_intent.putExtra("textArea", textAreaData);
                 submit_intent.putExtra("date_now", date);
                 submit_intent.putExtra("notepads", (Serializable) notepads);
@@ -101,6 +107,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 break;
 
             case R.id.skip_notepad:
+//                跳转NotepadActivity页面
                 Intent skipNotepad_intent = new Intent(this, NotepadActivity.class);
                 startActivity(skipNotepad_intent);
                 finish();
