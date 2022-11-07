@@ -1,4 +1,4 @@
-# 至尚笔记
+# ZhiShang
 
 <div align=center>
 <img src=".\logo.png" alt="logo" style="zoom:100%;"/>
