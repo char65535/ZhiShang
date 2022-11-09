@@ -15,7 +15,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -26,7 +29,6 @@ import java.util.List;
 
 import cn.itcast.zhishang.adapter.MyAdapter;
 import cn.itcast.zhishang.bean.Notepad;
-import cn.itcast.zhishang.sqlNotepad.sql.NoteSQLService;
 
 public class NotepadActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView noteName;
@@ -35,19 +37,34 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
     private ActivityResultLauncher<Intent> launcher;
     private String title;
 
+    private List<Notepad> notepads;
     private RecyclerView mRecyclerView;
     private MyAdapter myAdapter;
-    NoteSQLService service;
-    private List<Notepad> notepads;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notepad);
-        service = new NoteSQLService(this);
-        notepads = service.getAllData();
         //获取来自RecordActivity的数据
         initView();
+        //接收由RecordActivity回调数据
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getData() != null && result.getResultCode() == RESULT_OK) {
+                    //此处被隔很久，误区：创建Intent接收数据，实时上应该使用registerForActivityResult的result调用
+//                    方案一：使用bundle封装
+//                    Bundle bundle = result.getData().getExtras();
+//                    textArea = bundle.getString("textArea");
+//                    date_now = bundle.getString("date_now");
+//                    notepads = (List<Notepad>) bundle.getSerializable("notepads");
+//                    方案二：原始获取
+                    textArea = result.getData().getStringExtra("textArea");
+                    date_now = result.getData().getStringExtra("date_now");
+                    notepads = (List<Notepad>) result.getData().getSerializableExtra("notepads");
+                }
+            }
+        });
 //        为noteName设置字体
         noteName.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/huakangw5.ttc"));
 
@@ -130,7 +147,8 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
                     Intent intent_record = new Intent();
                     intent_record.setClass(context, RecordActivity.class);
                     intent_record.putExtra("title", textArea.getText().toString());
-                    startActivity(intent_record);
+//                    context.startActivity(intent_record);
+                    launcher.launch(intent_record);
                 }
             });
             cancel.setOnClickListener(new View.OnClickListener() {
