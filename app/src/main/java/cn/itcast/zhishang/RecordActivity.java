@@ -12,9 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.Serializable;
 import java.util.Calendar;
-import java.util.List;
 
 import cn.itcast.zhishang.bean.Notepad;
 import cn.itcast.zhishang.sqlNotepad.sql.NoteSQLService;
@@ -87,22 +85,9 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                     Toast.makeText(this, "添加成功", Toast.LENGTH_SHORT).show();
                 }
 
-//                遍历数据库
-                List<Notepad> notepads = service.getAllData();
-
                 Intent submit_intent = new Intent();
                 submit_intent.setClass(this, NotepadActivity.class);
-//                方案一：bundle封装
-//                Bundle bundle = new Bundle();
-//                bundle.putString("textArea", textAreaData);
-//                bundle.putString("date_now", date);
-//                bundle.putSerializable("notepads", (Serializable) notepads);
-//                submit_intent.putExtras(bundle);
-//                方案二
-                submit_intent.putExtra("textArea", textAreaData);
-                submit_intent.putExtra("date_now", date);
-                submit_intent.putExtra("notepads", (Serializable) notepads);
-                setResult(RESULT_OK, submit_intent);
+                startActivity(submit_intent);
                 finish();
                 break;
 
