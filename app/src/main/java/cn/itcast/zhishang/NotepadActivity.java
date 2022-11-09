@@ -15,10 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -29,42 +25,27 @@ import java.util.List;
 
 import cn.itcast.zhishang.adapter.MyAdapter;
 import cn.itcast.zhishang.bean.Notepad;
+import cn.itcast.zhishang.sqlNotepad.sql.NoteSQLService;
 
 public class NotepadActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView noteName;
     private ImageView add;
-    private String textArea, date_now;
-    private ActivityResultLauncher<Intent> launcher;
-    private String title;
 
-    private List<Notepad> notepads;
     private RecyclerView mRecyclerView;
     private MyAdapter myAdapter;
+    private List<Notepad> notepads;
+    private NoteSQLService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notepad);
-        //获取来自RecordActivity的数据
+
+//        遍历数据库
+        service = new NoteSQLService(this);
+        notepads = service.getAllData();
+
         initView();
-        //接收由RecordActivity回调数据
-        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                if (result.getData() != null && result.getResultCode() == RESULT_OK) {
-                    //此处被隔很久，误区：创建Intent接收数据，实时上应该使用registerForActivityResult的result调用
-//                    方案一：使用bundle封装
-//                    Bundle bundle = result.getData().getExtras();
-//                    textArea = bundle.getString("textArea");
-//                    date_now = bundle.getString("date_now");
-//                    notepads = (List<Notepad>) bundle.getSerializable("notepads");
-//                    方案二：原始获取
-                    textArea = result.getData().getStringExtra("textArea");
-                    date_now = result.getData().getStringExtra("date_now");
-                    notepads = (List<Notepad>) result.getData().getSerializableExtra("notepads");
-                }
-            }
-        });
 //        为noteName设置字体
         noteName.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/huakangw5.ttc"));
 
@@ -93,6 +74,7 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.add:
 //                为对话框类创建对象
                 MyDialog myDialog = new MyDialog(this, R.style.DialogTheme, new PriorixtyListener() {
+                    private String title;
                     @Override
                     public void setActivityTest(String str) {
                         title = str;
@@ -111,7 +93,6 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
     //创建对话框类
     public class MyDialog extends Dialog {
         private Context context;
-        private TextView title_dialog;
         private EditText textArea;
         private ImageView cancel, confirm;
         private PriorixtyListener listener;
@@ -147,8 +128,7 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
                     Intent intent_record = new Intent();
                     intent_record.setClass(context, RecordActivity.class);
                     intent_record.putExtra("title", textArea.getText().toString());
-//                    context.startActivity(intent_record);
-                    launcher.launch(intent_record);
+                    startActivity(intent_record);
                 }
             });
             cancel.setOnClickListener(new View.OnClickListener() {
@@ -161,7 +141,6 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         private void initView() {
-            title_dialog = findViewById(R.id.title);
             textArea = findViewById(R.id.textArea);
             cancel = findViewById(R.id.cancel);
             confirm = findViewById(R.id.confirm);
