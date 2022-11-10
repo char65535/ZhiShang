@@ -19,12 +19,11 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-
         </activity>
         <activity
             android:name=".NotepadActivity"
             android:exported="true"
-            android:theme="@style/Theme.Design.NoActionBar">
+            android:theme="@style/Theme.ZhiShang">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -54,7 +53,7 @@
             android:exported="true"
             android:theme="@style/Theme.Design.NoActionBar"> <!-- 关闭标签栏 -->
 
-
+            <!--            开始页面-->
 
             <meta-data
                 android:name="android.app.lib_name"

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -23,7 +24,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import cn.itcast.zhishang.adapter.MyAdapter;
 import cn.itcast.zhishang.bean.Notepad;
 import cn.itcast.zhishang.sqlNotepad.sql.NoteSQLService;
 
@@ -92,10 +92,10 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
 
     //创建对话框类
     public class MyDialog extends Dialog {
-        private Context context;
+        private final Context context;
         private EditText textArea;
         private ImageView cancel, confirm;
-        private PriorixtyListener listener;
+        private final PriorixtyListener listener;
 
         public MyDialog(@NonNull Context context, int theme, PriorixtyListener listener) {
             super(context, theme);
@@ -146,4 +146,69 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
             confirm = findViewById(R.id.confirm);
         }
     }
+
+    public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+        private final List<Notepad> notepads;
+        private final Context context;
+        private OnItemClickListener listener;
+
+        public MyAdapter(List<Notepad> notepads, Context context) {
+            this.notepads = notepads;
+            this.context = context;
+        }
+
+        @NonNull
+        @Override
+        public MyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            ViewHolder viewHolder = new ViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_item, parent, false));
+            return viewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull MyAdapter.ViewHolder holder, int position) {
+            holder.title.setText(notepads.get(position).getTitle());
+            holder.content1.setText(notepads.get(position).getContent());
+            holder.time.setText(notepads.get(position).getTime());
+        }
+
+        @Override
+        public int getItemCount() {
+            return notepads == null ? 0 : notepads.size();
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+
+            TextView title, content1, time;
+
+            public ViewHolder(@NonNull View itemView) {
+                super(itemView);
+                title = itemView.findViewById(R.id.title);
+                content1 = itemView.findViewById(R.id.content);
+                time = itemView.findViewById(R.id.time);
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent_adapter = new Intent(NotepadActivity.this, RecordActivity.class);
+                        intent_adapter.putExtra("title", title.getText().toString().trim());
+                        intent_adapter.putExtra("content", content1.getText().toString().trim());
+                        startActivity(intent_adapter);
+                    }
+                });
+            }
+        }
+
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

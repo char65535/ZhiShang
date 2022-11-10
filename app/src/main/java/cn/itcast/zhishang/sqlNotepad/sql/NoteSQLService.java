@@ -64,7 +64,7 @@ public class NoteSQLService {
     public List<Notepad> getAllData() {
         SQLiteDatabase db = helper.getReadableDatabase();
         @SuppressLint("Recycle") Cursor cursor = db.query("notes", null, null, null,
-                null, null, "notesId asc");
+                null, null, "notesId desc");
         List<Notepad> notes = new ArrayList<>();
         if (cursor.getCount() != 0) {
             while (cursor.moveToNext()) {
