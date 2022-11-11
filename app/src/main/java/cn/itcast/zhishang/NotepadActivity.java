@@ -1,7 +1,9 @@
 package cn.itcast.zhishang;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -60,6 +63,29 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         myAdapter = new MyAdapter(notepads, getApplicationContext());
         mRecyclerView.setAdapter(myAdapter);
+        myAdapter.setOnRemoveListener(new OnRemoveListener() {
+            @Override
+            public void onDelete(int i) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(NotepadActivity.this);
+                builder.setMessage("确定删除？");
+                builder.setTitle("提示");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        notepads.remove(i);
+                        myAdapter.notifyDataSetChanged();
+                        Toast.makeText(NotepadActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.create().show();
+            }
+        });
     }
 
     //    获取控件
@@ -153,6 +179,11 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
         private final List<Notepad> notepads;
         private final Context context;
         private OnItemClickListener listener;
+        private OnRemoveListener onRemoveListener;
+
+        public void setOnRemoveListener(OnRemoveListener onRemoveListener) {
+            this.onRemoveListener = onRemoveListener;
+        }
 
         public MyAdapter(List<Notepad> notepads, Context context) {
             this.notepads = notepads;
@@ -167,11 +198,12 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         @Override
-        public void onBindViewHolder(@NonNull MyAdapter.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull MyAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
             holder.title.setText(notepads.get(position).getTitle());
             holder.content1.setText(notepads.get(position).getContent());
             holder.time.setText(notepads.get(position).getTime());
-            holder.position = position;
+            holder.pos = position;
+
         }
 
         @Override
@@ -182,7 +214,7 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             TextView title, content1, time;
-            int position;
+            int pos;
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -199,9 +231,18 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
                         bundle.putString("title", title.getText().toString().trim());
                         bundle.putString("content", content1.getText().toString().trim());
                         bundle.putString("time", time.getText().toString().trim());
-                        bundle.putInt("position", position);
+                        bundle.putInt("position", pos);
                         intent_edit.putExtras(bundle);
                         startActivity(intent_edit);
+                    }
+                });
+                itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        if (onRemoveListener != null) {
+                            onRemoveListener.onDelete(pos);
+                        }
+                        return true;
                     }
                 });
             }
