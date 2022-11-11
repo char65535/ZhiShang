@@ -3,6 +3,7 @@ package cn.itcast.zhishang;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -35,6 +36,7 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
     private MyAdapter myAdapter;
     private List<Notepad> notepads;
     private NoteSQLService service;
+    private Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +66,7 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
     private void initView() {
         noteName = findViewById(R.id.note_name);
         add = findViewById(R.id.add);
-        mRecyclerView =findViewById(R.id.recyclerview);
+        mRecyclerView = findViewById(R.id.recyclerview);
     }
 
     //    实现点击事件
@@ -169,6 +171,7 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
             holder.title.setText(notepads.get(position).getTitle());
             holder.content1.setText(notepads.get(position).getContent());
             holder.time.setText(notepads.get(position).getTime());
+            holder.position = position;
         }
 
         @Override
@@ -179,6 +182,7 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             TextView title, content1, time;
+            int position;
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -188,16 +192,28 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent_adapter = new Intent(NotepadActivity.this, RecordActivity.class);
-                        intent_adapter.putExtra("title", title.getText().toString().trim());
-                        intent_adapter.putExtra("content", content1.getText().toString().trim());
-                        startActivity(intent_adapter);
+                        //跳转修改页面
+                        Intent intent_edit = new Intent();
+                        intent_edit.setClass(NotepadActivity.this, EditActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("title", title.getText().toString().trim());
+                        bundle.putString("content", content1.getText().toString().trim());
+                        bundle.putString("time", time.getText().toString().trim());
+                        bundle.putInt("position", position);
+                        intent_edit.putExtras(bundle);
+                        startActivity(intent_edit);
                     }
                 });
             }
         }
 
     }
+
+    private void itemNotifyItemRemoved() {
+        notepads.remove(1);
+        myAdapter.notifyItemRemoved(1);
+    }
+
 }
 
 

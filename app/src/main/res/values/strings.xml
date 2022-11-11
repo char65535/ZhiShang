@@ -13,4 +13,5 @@
     <string name="record_hint">Writing your ideas...</string>
     <string name="submit">提交</string>
     <string name="record_title">Title...</string>
+    <string name="record_content">content...</string>
 </resources>
