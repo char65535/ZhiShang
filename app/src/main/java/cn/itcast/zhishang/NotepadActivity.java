@@ -1,25 +1,14 @@
 package cn.itcast.zhishang;
 
-import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -28,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import cn.itcast.zhishang.adapter.MyAdapter;
 import cn.itcast.zhishang.bean.Notepad;
 import cn.itcast.zhishang.sqlNotepad.sql.NoteSQLService;
 
@@ -80,7 +70,6 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                     }
                 });
                 builder.create().show();
@@ -117,144 +106,6 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
                 break;
         }
     }
-
-    //创建对话框类
-    public class MyDialog extends Dialog {
-        private final Context context;
-        private EditText textArea;
-        private ImageView cancel, confirm;
-        private final PriorixtyListener listener;
-
-        public MyDialog(@NonNull Context context, int theme, PriorixtyListener listener) {
-            super(context, theme);
-            this.context = context;
-            this.listener = listener;
-        }
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            LayoutInflater inflater = LayoutInflater.from(context);
-            View view = inflater.inflate(R.layout.layout_dialog, null);
-            setContentView(view);
-
-            initView();
-
-//            设置对话框位置
-            Window window = getWindow();
-            WindowManager.LayoutParams params = window.getAttributes();
-            params.gravity = Gravity.CENTER;
-            window.setAttributes(params);
-
-//            为确定和取消按钮添加点击事件
-            confirm.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.setActivityTest(textArea.getText().toString());
-                    dismiss();
-
-                    Intent intent_record = new Intent();
-                    intent_record.setClass(context, RecordActivity.class);
-                    intent_record.putExtra("title", textArea.getText().toString());
-                    startActivity(intent_record);
-                }
-            });
-            cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, "已取消", Toast.LENGTH_SHORT).show();
-                    dismiss();
-                }
-            });
-        }
-
-        private void initView() {
-            textArea = findViewById(R.id.textArea);
-            cancel = findViewById(R.id.cancel);
-            confirm = findViewById(R.id.confirm);
-        }
-    }
-
-    public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-        private final List<Notepad> notepads;
-        private final Context context;
-        private OnItemClickListener listener;
-        private OnRemoveListener onRemoveListener;
-
-        public void setOnRemoveListener(OnRemoveListener onRemoveListener) {
-            this.onRemoveListener = onRemoveListener;
-        }
-
-        public MyAdapter(List<Notepad> notepads, Context context) {
-            this.notepads = notepads;
-            this.context = context;
-        }
-
-        @NonNull
-        @Override
-        public MyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            ViewHolder viewHolder = new ViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_item, parent, false));
-            return viewHolder;
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull MyAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-            holder.title.setText(notepads.get(position).getTitle());
-            holder.content1.setText(notepads.get(position).getContent());
-            holder.time.setText(notepads.get(position).getTime());
-            holder.pos = position;
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return notepads == null ? 0 : notepads.size();
-        }
-
-        public class ViewHolder extends RecyclerView.ViewHolder {
-
-            TextView title, content1, time;
-            int pos;
-
-            public ViewHolder(@NonNull View itemView) {
-                super(itemView);
-                title = itemView.findViewById(R.id.title);
-                content1 = itemView.findViewById(R.id.content);
-                time = itemView.findViewById(R.id.time);
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //跳转修改页面
-                        Intent intent_edit = new Intent();
-                        intent_edit.setClass(NotepadActivity.this, EditActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("title", title.getText().toString().trim());
-                        bundle.putString("content", content1.getText().toString().trim());
-                        bundle.putString("time", time.getText().toString().trim());
-                        bundle.putInt("position", pos);
-                        intent_edit.putExtras(bundle);
-                        startActivity(intent_edit);
-                    }
-                });
-                itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        if (onRemoveListener != null) {
-                            onRemoveListener.onDelete(pos);
-                        }
-                        return true;
-                    }
-                });
-            }
-        }
-
-    }
-
-    private void itemNotifyItemRemoved() {
-        notepads.remove(1);
-        myAdapter.notifyItemRemoved(1);
-    }
-
 }
 
 

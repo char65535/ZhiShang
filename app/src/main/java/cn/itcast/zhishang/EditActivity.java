@@ -8,12 +8,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
 
+import cn.itcast.zhishang.adapter.MyAdapter;
 import cn.itcast.zhishang.bean.Notepad;
 import cn.itcast.zhishang.sqlNotepad.sql.NoteSQLService;
 
@@ -29,7 +29,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private NoteSQLService service;
     private List<Notepad> notepads;
     private Notepad notepad;
-    private NotepadActivity.MyAdapter myAdapter;
+    private MyAdapter myAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +42,12 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         content.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/huakangw5.ttc"));
 //        接收来自NotepadActivity页面的数据
         receive_NotepadsActivity();
-//        为控件设置数据
+//        初始化控件
         set_control();
 //        创建NoteSQLService实例对象
         service = new NoteSQLService(this);
         notepads = service.getAllData();
+        myAdapter = new MyAdapter(notepads, getApplicationContext());
 
         AllClickListener();
     }
@@ -83,10 +84,10 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.submit:
-                notepad = new Notepad(str_title, str_content, str_time);
-                Toast.makeText(this, notepad + "", Toast.LENGTH_SHORT).show();
-                itemNotifyItemRemoved();
-                itemNotifyItemInsert();
+
+//                删除该行数据，并创建新数据
+
+                finish();
                 break;
             case R.id.back:
                 Intent skipNotepad_intent = new Intent(this, NotepadActivity.class);
