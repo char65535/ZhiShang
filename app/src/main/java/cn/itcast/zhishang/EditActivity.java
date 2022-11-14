@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,6 +25,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private Button back;
 
     private String str_title, str_content, str_time;
+    private String now_title, now_content, now_time;
     private int position;
 
     private NoteSQLService service;
@@ -84,9 +86,18 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.submit:
-
 //                删除该行数据，并创建新数据
-
+                now_title = title.getText().toString();
+                now_content = content.getText().toString();
+                now_time = time.getText().toString();
+                notepad = new Notepad(now_title, now_content, now_time);
+                long rowId = service.addInfo(notepad);
+                if (rowId == -1) {
+                    Toast.makeText(this, "添加失败", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "添加成功", Toast.LENGTH_SHORT).show();
+                }
+                myAdapter.notifyDataSetChanged();
                 finish();
                 break;
             case R.id.back:
@@ -106,8 +117,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         notepads.add(position, notepad);
         myAdapter.notifyItemInserted(position);
     }
-
-
 }
 
 

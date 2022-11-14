@@ -56,23 +56,8 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
         myAdapter.setOnRemoveListener(new OnRemoveListener() {
             @Override
             public void onDelete(int i) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(NotepadActivity.this);
-                builder.setMessage("确定删除？");
-                builder.setTitle("提示");
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        notepads.remove(i);
-                        myAdapter.notifyDataSetChanged();
-                        Toast.makeText(NotepadActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-                builder.create().show();
+                MyDialog_Delete myDialog_delete = new MyDialog_Delete(NotepadActivity.this, R.style.DialogTheme, i, notepads, myAdapter, service);
+                myDialog_delete.show();
             }
         });
     }
@@ -105,6 +90,11 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
                 Toast.makeText(this, "" + notepads, Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 }
 

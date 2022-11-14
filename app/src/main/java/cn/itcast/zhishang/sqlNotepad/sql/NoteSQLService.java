@@ -43,15 +43,15 @@ public class NoteSQLService {
         return null;
     }
 
-    public int delete(int notesId) {
-        SQLiteDatabase db = helper.getReadableDatabase();
-        int rowNumber = db.delete("notes", "notesId=?", new String[]{notesId + ""});
+    public int delete(int id) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        int rowNumber = db.delete("notes", "notesId=?", new String[]{id + ""});
         db.close();
         return rowNumber;
     }
 
     public int update(Notepad notes) {
-        SQLiteDatabase db = helper.getReadableDatabase();
+        SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("title", notes.getTitle());
         values.put("content", notes.getContent());
