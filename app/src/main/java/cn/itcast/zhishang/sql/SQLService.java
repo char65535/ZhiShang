@@ -18,7 +18,7 @@ public class SQLService {
     }
 
     public long addInfo(Person person) {
-        SQLiteDatabase db = helper.getReadableDatabase();
+        SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("name", person.getName());
         values.put("email", person.getEmail());
@@ -45,14 +45,14 @@ public class SQLService {
     }
 
     public int delete(int personId) {
-        SQLiteDatabase db = helper.getReadableDatabase();
+        SQLiteDatabase db = helper.getWritableDatabase();
         int rowNumber = db.delete("person", "personId=?", new String[]{personId + ""});
         db.close();
         return rowNumber;
     }
 
     public int update(Person person) {
-        SQLiteDatabase db = helper.getReadableDatabase();
+        SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("name", person.getName());
         values.put("email", person.getEmail());

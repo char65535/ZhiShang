@@ -19,7 +19,7 @@ public class NoteSQLService {
     }
 
     public long addInfo(Notepad notes) {
-        SQLiteDatabase db = helper.getReadableDatabase();
+        SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("title", notes.getTitle());
         values.put("content", notes.getContent());

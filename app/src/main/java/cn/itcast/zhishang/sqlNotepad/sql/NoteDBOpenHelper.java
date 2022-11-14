@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 public class NoteDBOpenHelper extends SQLiteOpenHelper {
     public NoteDBOpenHelper(@Nullable Context context) {
-        super(context, "notepad.db", null, 1);
+        super(context, "notepad.db", null, 2);
     }
 
     @Override

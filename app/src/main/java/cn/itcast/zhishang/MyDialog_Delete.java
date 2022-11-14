@@ -3,7 +3,6 @@ package cn.itcast.zhishang;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,11 +53,8 @@ public class MyDialog_Delete extends Dialog {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                notepads.remove(position);
-//                myAdapter.notifyDataSetChanged();
-                Log.e("service", service + "");
-                Log.e("notepads", notepads + "");
                 service.delete(position);
+                notepads.remove(position);
                 myAdapter.notifyDataSetChanged();
                 dismiss();
             }
