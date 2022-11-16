@@ -13,10 +13,15 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
 import cn.itcast.zhishang.adapter.MyAdapter;
 import cn.itcast.zhishang.bean.Notepad;
+import cn.itcast.zhishang.bean.RefreshNotepadEvent;
 import cn.itcast.zhishang.sqlNotepad.sql.NoteSQLService;
 
 public class NotepadActivity extends AppCompatActivity implements View.OnClickListener {
@@ -29,11 +34,20 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
     private NoteSQLService service;
     private Cursor cursor;
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onRefreshEvent(RefreshNotepadEvent event){
+        if (service != null ){
+            notepads = service.getAllData();
+            myAdapter = new MyAdapter(notepads, getApplicationContext());
+            mRecyclerView.setAdapter(myAdapter);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notepad);
-
+        EventBus.getDefault().register(this);
 //        遍历数据库
         service = new NoteSQLService(this);
         notepads = service.getAllData();
@@ -54,7 +68,7 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
         myAdapter.setOnRemoveListener(new OnRemoveListener() {
             @Override
             public void onDelete(int i) {
-                MyDialog_Delete myDialog_delete = new MyDialog_Delete(NotepadActivity.this, R.style.DialogTheme, i, notepads, myAdapter, service);
+                MyDialog_Delete myDialog_delete = new MyDialog_Delete(NotepadActivity.this, R.style.DialogTheme,notepads.get(i).getId(), i, notepads, myAdapter, service);
                 myDialog_delete.show();
             }
         });
@@ -93,6 +107,12 @@ public class NotepadActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
 

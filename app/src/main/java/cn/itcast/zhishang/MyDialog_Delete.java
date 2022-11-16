@@ -23,14 +23,16 @@ public class MyDialog_Delete extends Dialog {
     private final MyAdapter myAdapter;
     private NoteSQLService service;
     private ImageView cancel, confirm;
+    private String id;
 
-    public MyDialog_Delete(Context context, int theme, int position, List<Notepad> notepads, MyAdapter myAdapter, NoteSQLService service) {
+    public MyDialog_Delete(Context context, int theme,String id, int position, List<Notepad> notepads, MyAdapter myAdapter, NoteSQLService service) {
         super(context, theme);
         this.context = context;
         this.position = position;
         this.notepads = notepads;
         this.myAdapter = myAdapter;
         this.service = service;
+        this.id = id;
     }
 
     @Override
@@ -53,7 +55,7 @@ public class MyDialog_Delete extends Dialog {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                service.delete(position);
+                service.delete(id);
                 notepads.remove(position);
                 myAdapter.notifyDataSetChanged();
                 dismiss();

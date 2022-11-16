@@ -12,10 +12,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
-import cn.itcast.zhishang.adapter.MyAdapter;
 import cn.itcast.zhishang.bean.Notepad;
+import cn.itcast.zhishang.bean.RefreshNotepadEvent;
 import cn.itcast.zhishang.sqlNotepad.sql.NoteSQLService;
 
 public class EditActivity extends AppCompatActivity implements View.OnClickListener {
@@ -25,13 +27,13 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private Button back;
 
     private String str_title, str_content, str_time;
-    private String now_title, now_content, now_time;
+    private String now_title, now_content, now_time, now_id;
     private int position;
 
     private NoteSQLService service;
     private List<Notepad> notepads;
     private Notepad notepad;
-    private MyAdapter myAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +51,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 //        创建NoteSQLService实例对象
         service = new NoteSQLService(this);
         notepads = service.getAllData();
-        myAdapter = new MyAdapter(notepads, getApplicationContext());
-
         AllClickListener();
     }
 
@@ -69,6 +69,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         str_content = bundle.getString("content");
         str_time = bundle.getString("time");
         position = bundle.getInt("position");
+        now_id = bundle.getString("now_id");
     }
 
     private void set_control() {
@@ -90,14 +91,15 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 now_title = title.getText().toString();
                 now_content = content.getText().toString();
                 now_time = time.getText().toString();
-                notepad = new Notepad(now_title, now_content, now_time);
+                notepad = new Notepad(now_id, now_title, now_content, now_time);
                 long rowId = service.addInfo(notepad);
                 if (rowId == -1) {
                     Toast.makeText(this, "添加失败", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, "添加成功", Toast.LENGTH_SHORT).show();
                 }
-                myAdapter.notifyDataSetChanged();
+                //修改完发通知刷新NotepadActivity的列表
+                EventBus.getDefault().post(new RefreshNotepadEvent());
                 finish();
                 break;
             case R.id.back:
@@ -106,16 +108,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 finish();
                 break;
         }
-    }
-
-    private void itemNotifyItemRemoved() {
-        notepads.remove(position);
-        myAdapter.notifyItemRemoved(position);
-    }
-
-    private void itemNotifyItemInsert() {
-        notepads.add(position, notepad);
-        myAdapter.notifyItemInserted(position);
     }
 }
 

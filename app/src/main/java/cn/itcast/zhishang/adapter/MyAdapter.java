@@ -73,6 +73,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                     Intent intent_edit = new Intent();
                     intent_edit.setClass(context.getApplicationContext(), EditActivity.class);
                     Bundle bundle = new Bundle();
+                    bundle.putString("now_id", notepads.get(pos).getId());
                     bundle.putString("title", title.getText().toString().trim());
                     bundle.putString("content", content1.getText().toString().trim());
                     bundle.putString("time", time.getText().toString().trim());

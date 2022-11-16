@@ -1,14 +1,17 @@
 package cn.itcast.zhishang.bean;
 
+import android.os.SystemClock;
+import android.util.Log;
+
 import java.io.Serializable;
 
 public class Notepad implements Serializable {
-    private Integer id;                  //记录的id
+    private String id;                  //记录的id ,用时间戳这样是唯一值
     private String title;
     private String content;   //记录的内容
     private String time;       //保存记录的时间
 
-    public Notepad(Integer id, String title, String content, String time) {
+    public Notepad(String id, String title, String content, String time) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -16,6 +19,8 @@ public class Notepad implements Serializable {
     }
 
     public Notepad(String title, String content, String time) {
+        this.id = System.currentTimeMillis()+"";
+        Log.i("onClick100",id);
         this.title = title;
         this.content = content;
         this.time = time;
@@ -24,11 +29,11 @@ public class Notepad implements Serializable {
     public Notepad() {
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

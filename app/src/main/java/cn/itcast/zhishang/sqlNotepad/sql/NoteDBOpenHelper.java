@@ -8,13 +8,13 @@ import androidx.annotation.Nullable;
 
 public class NoteDBOpenHelper extends SQLiteOpenHelper {
     public NoteDBOpenHelper(@Nullable Context context) {
-        super(context, "notepad.db", null, 2);
+        super(context, "notepad.db", null, 3);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS notes (notesId integer " +
-                "primary key autoincrement,title varchar(20), content varchar(200), time varchar(20))");
+        //不用自增建，因为在外面没法获取到，用时间戳作为每条的id，这样也不会重复
+        db.execSQL("CREATE TABLE IF NOT EXISTS notes (notesId varchar(200) ,title varchar(20), content varchar(200), time varchar(20))");
     }
 
     @Override

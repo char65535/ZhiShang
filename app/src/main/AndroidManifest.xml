@@ -15,31 +15,26 @@
         <activity
             android:name=".EditActivity"
             android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
+
         </activity>
         <activity
             android:name=".RecordActivity"
             android:exported="false"
             android:theme="@style/Theme.Design.NoActionBar">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
+
         </activity>
         <activity
             android:name=".NotepadActivity"
             android:exported="true"
-            android:theme="@style/Theme.ZhiShang">
+            android:theme="@style/Theme.ZhiShang"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
+
         </activity>
         <activity
             android:name=".RegisterPage"
@@ -65,9 +60,6 @@
 
             <!-- 开始页面 -->
 
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
         </activity>
     </application>
 

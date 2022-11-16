@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +25,19 @@ public class NoteSQLService {
         values.put("title", notes.getTitle());
         values.put("content", notes.getContent());
         values.put("time", notes.getTime());
-        long rowId = db.insert("notes", null, values);
+        values.put("notesId",notes.getId());
+        long rowId = -1;
+        if (find(notes.getId()) != null){
+            rowId =  update(notes);
+        } else {
+            rowId = db.insert("notes", null, values);
+        }
+
         db.close();
         return rowId;
     }
 
-    public Notepad find(int id) {
+    public Notepad find(String id) {
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor cursor = db.query("notes", null, "notesId=?", new String[]{id + ""}, null, null, null);
         if (cursor.getCount() != 0) {
@@ -37,13 +45,13 @@ public class NoteSQLService {
                 @SuppressLint("Range") String title = cursor.getString(cursor.getColumnIndex("title"));
                 @SuppressLint("Range") String content = cursor.getString(cursor.getColumnIndex("content"));
                 @SuppressLint("Range") String time = cursor.getString(cursor.getColumnIndex("time"));
-                return new Notepad(title, content, time);
+                return new Notepad(id,title, content, time);
             }
         }
         return null;
     }
 
-    public int delete(int id) {
+    public int delete(String id) {
         SQLiteDatabase db = helper.getWritableDatabase();
         int rowNumber = db.delete("notes", "notesId=?", new String[]{id + ""});
         db.close();
@@ -68,7 +76,7 @@ public class NoteSQLService {
         List<Notepad> notes = new ArrayList<>();
         if (cursor.getCount() != 0) {
             while (cursor.moveToNext()) {
-                @SuppressLint("Range") int id = cursor.getInt(cursor.getColumnIndex("notesId"));
+                @SuppressLint("Range") String id = cursor.getString(cursor.getColumnIndex("notesId"));
                 @SuppressLint("Range") String title = cursor.getString(cursor.getColumnIndex("title"));
                 @SuppressLint("Range") String content = cursor.getString(cursor.getColumnIndex("content"));
                 @SuppressLint("Range") String time = cursor.getString(cursor.getColumnIndex("time"));
