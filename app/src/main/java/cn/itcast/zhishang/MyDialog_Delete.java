@@ -21,9 +21,9 @@ public class MyDialog_Delete extends Dialog {
     private final int position;
     private final List<Notepad> notepads;
     private final MyAdapter myAdapter;
-    private NoteSQLService service;
+    private final NoteSQLService service;
     private ImageView cancel, confirm;
-    private String id;
+    private final String id;
 
     public MyDialog_Delete(Context context, int theme,String id, int position, List<Notepad> notepads, MyAdapter myAdapter, NoteSQLService service) {
         super(context, theme);
